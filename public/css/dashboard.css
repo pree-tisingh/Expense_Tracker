@@ -1,0 +1,277 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden; /* Prevent body from scrolling */
+  }
+
+  .container {
+    display: flex;
+    width: 100%;
+    height: 100%; /* Make the container take full height */
+  }
+
+  .sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed; /* Make the sidebar fixed */
+    top: 0;
+    left: 0;
+    height: 100%; /* Make sidebar take full height */
+    overflow-y: auto; /* Enable scrolling for sidebar content if needed */
+  }
+
+  .sidebar h2 {
+    margin-top: 0;
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sidebar ul li {
+    margin: 20px 0;
+  }
+
+  .sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    background-color: #34495e;
+    border-radius: 5px;
+  }
+
+  .sidebar ul li a:hover {
+    background-color: #1abc9c;
+  }
+
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ecf0f1;
+    margin-left: 250px; /* Create space for the fixed sidebar */
+    overflow-y: auto; /* Make main content scrollable */
+    height: 100vh; /* Make main content take full height */
+  }
+
+  .dashboard-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+
+  #expense-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #expense-form label {
+    margin: 10px 0 5px;
+  }
+
+  #expense-form input,
+  #expense-form select,
+  #expense-form button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  #expense-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  #expense-table th,
+  #expense-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+
+  #expense-table th {
+    background-color: #3498db;
+    color: white;
+  }
+
+  #expense-table td i {
+    cursor: pointer;
+    margin: 0 5px;
+  }
+
+  #expense-table td i:hover {
+    color: #e74c3c;
+  }
+
+  .button-container {
+    display: flex; /* Space between buttons */
+    align-items: center; /* Vertically align buttons in the middle */
+    gap: 10px; /* Space between buttons */
+    margin: 20px 0; /* Add some space above and below the container */
+  }
+
+  button {
+    padding: 10px 20px; /* Add some padding */
+    font-size: 16px; /* Set font size */
+    color: white; /* Text color */
+    background-color: #007bff; /* Button color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+  }
+
+  #submit {
+    background: linear-gradient(45deg, #ff7e5f, #feb47b);
+    color: white;
+  }
+
+  #submit:hover {
+    background: linear-gradient(45deg, #feb47b, #ff7e5f);
+  }
+
+  #leaderboard-button {
+    background-color: #20c997;
+  }
+
+  #leaderboard-button:hover {
+    background-color: #17a589;
+  }
+
+  #report-button {
+    background-color: #20c997;
+  }
+
+  #report-button:hover {
+    background-color: #17a589;
+  }
+
+  #buy-premium {
+    background-color: #e74c3c;
+  }
+
+  #buy-premium:hover {
+    background-color: #a43023;
+  }
+
+  button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+
+  /* Leaderboard Modal */
+  #leaderboard-modal {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    width: 25%; /* Fixed width of 25% */
+    padding: 20px;
+    background: #ecf0f1;
+    border-radius: 10px 0 0 10px; /* Rounded corners on the left side */
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3); /* Shadow on the left side */
+    z-index: 1000;
+    transform: translateY(-50%); /* Center it vertically */
+    display: none;
+  }
+
+  #leaderboard-modal h2 {
+    color: #34495e;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+  }
+
+  #leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #leaderboard-list li {
+    background: linear-gradient(45deg, #bdc3c7, #2c3e50);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2em;
+  }
+
+  #close-leaderboard {
+    padding: 10px 20px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%; /* Make the button full-width */
+    text-align: center; /* Center the text */
+  }
+
+  #close-leaderboard:hover {
+    background: #c0392b;
+  }
+
+  /* Report Modal */
+  #report-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: none;
+  }
+
+  #report-modal h2 {
+    color: #34495e;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+  }
+
+  .report-option {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    margin: 10px 0;
+    background: linear-gradient(45deg, #9b59b6, #8e44ad);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .report-option:hover {
+    background: linear-gradient(45deg, #8e44ad, #9b59b6);
+  }
+
+  #close-report {
+    padding: 10px 20px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  #close-report:hover {
+    background: #c0392b;
+  }

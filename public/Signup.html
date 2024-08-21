@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="./css/Signup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="signup-container">
+        <div class="left-side">
+            <h2>Welcome To Expense Tracker</h2>
+            <p>"Keep track of your expenses and save more."</p>
+        </div>
+        <div class="right-side">
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" placeholder="Enter Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Enter Your Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter Your Password" required>
+                </div>
+                <div class="form-group">
+                    <label for="number">Mobile Number</label>
+                    <input type="tel" name="number" id="number" placeholder="Enter Your Number" required>
+                </div>
+                <button type="submit" id="sign-up">Sign Up</button>
+                <div id="error-message" class="error-message"></div>
+                <div class="signup-link">
+                    <p>Existing Account? <a href="Login.html">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="./js/main.js"></script>
+</body>
+</html>

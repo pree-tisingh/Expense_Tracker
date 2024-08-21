@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses Dashboard</title>
+    <style>
+        /* Add your styles here */
+        #dashboard {
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <button id="report-btn" style="display: none;">Report</button>
+    <div id="dashboard">
+        <button id="download-btn" disabled>Download Expenses</button>
+        <select id="period-selector">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+        <table id="current-month-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table content will be added dynamically -->
+            </tbody>
+        </table>
+        <table id="yearly-report-table">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Income</th>
+                    <th>Expenses</th>
+                    <th>Savings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table content will be added dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Function to check if user is premium
+        async function checkPremiumStatus() {
+            try {
+                const response = await fetch('http://localhost:4000/api/users/check-premium-status');
+                const data = await response.json();
+
+                if (data.isPremium) {
+                    document.getElementById('report-btn').style.display = 'block';
+                } else {
+                    document.getElementById('report-btn').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error checking premium status:', error);
+            }
+        }
+
+        // Function to load current month expenses
+        async function loadCurrentMonthExpenses() {
+            try {
+                const response = await fetch('http://localhost:4000/api/expenses/monthly');
+                const data = await response.json();
+                const tableBody = document.querySelector('#current-month-table tbody');
+                tableBody.innerHTML = data.map(expense => `
+                    <tr>
+                        <td>${expense.date}</td>
+                        <td>${expense.description}</td>
+                        <td>${expense.category}</td>
+                        <td>${expense.income || ''}</td>
+                        <td>${expense.expense || ''}</td>
+                    </tr>
+                `).join('');
+                document.getElementById('download-btn').disabled = false;
+            } catch (error) {
+                console.error('Error loading current month expenses:', error);
+            }
+        }
+
+        // Function to load yearly report
+        async function loadYearlyReport() {
+            try {
+                const response = await fetch('http://localhost:4000/api/expenses/yearly');
+                const data = await response.json();
+                const tableBody = document.querySelector('#yearly-report-table tbody');
+                tableBody.innerHTML = data.map(report => `
+                    <tr>
+                        <td>${report.month}</td>
+                        <td>${report.income}</td>
+                        <td>${report.expenses}</td>
+                        <td>${report.savings}</td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading yearly report:', error);
+            }
+        }
+
+        // Event listener for period selector
+        document.getElementById('period-selector').addEventListener('change', async function(event) {
+            const period = event.target.value;
+            try {
+                const response = await fetch(`http://localhost:4000/api/expenses/${period}`);
+                const data = await response.json();
+                // Update current month table with data
+            } catch (error) {
+                console.error('Error fetching expenses:', error);
+            }
+        });
+
+        // Event listener for download button
+        document.getElementById('download-btn').addEventListener('click', async function() {
+            try {
+                const response = await fetch('http://localhost:4000/api/expenses/export-expenses', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({}) // Adjust as needed
+                });
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'expenses.csv'; // Adjust filename as needed
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } catch (error) {
+                console.error('Error downloading file:', error);
+            }
+        });
+
+        // Check premium status on page load
+        checkPremiumStatus().then(() => {
+            document.getElementById('report-btn').addEventListener('click', function() {
+                document.getElementById('dashboard').style.display = 'block';
+                loadCurrentMonthExpenses();
+                loadYearlyReport();
+            });
+        });
+    </script>
+</body>
+</html>

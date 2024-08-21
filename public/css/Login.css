@@ -1,0 +1,111 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #dcd5d5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.login-container {
+    display: flex;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    width: 70%;
+    max-width: 900px;
+}
+.left-side {
+    position: relative;
+    width: 50%;
+    background-image: url('https://img.freepik.com/premium-photo/personal-expenses-concept-financial-analysis-background-golden-coins-pile-icons_488220-9521.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: white;
+    text-align: center;
+}
+.left-side::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+.left-side h2,
+.left-side p {
+    top:-30%;
+    position: relative;
+    z-index: 1;
+}
+.right-side {
+    padding: 40px;
+    width: 50%;
+}
+.right-side h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+#login {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(90deg, #007bff 0%, #6f42c1 100%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+#login:hover {
+    background: linear-gradient(90deg, #6f42c1 0%, #007bff 100%);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+#login:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+}
+.signup-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.signup-link a:hover {
+    text-decoration: underline;
+}
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}

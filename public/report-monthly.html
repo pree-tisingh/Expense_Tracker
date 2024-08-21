@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Report</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Monthly Report</h1>
+        <nav>
+            <a href="daily-report.html">Daily Report</a>
+            <a href="weekly-report.html">Weekly Report</a>
+        </nav>
+    </header>
+    <main>
+        <h2>This Month's Expenses</h2>
+        <table id="monthly-expenses">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+        <button id="download-report">Download Report</button>
+        <div id="downloaded-files">
+            <h3>Previously Downloaded Files</h3>
+            <ul id="file-list">
+                <!-- List of previously downloaded files will be populated here -->
+            </ul>
+        </div>
+    </main>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('userId');
+        const token = urlParams.get('token');
+
+        if (!userId || !token) {
+            alert('User ID or token is missing. Please log in again.');
+            window.location.href = '/Login.html'; // Redirect to login page
+            return;
+        }
+
+        // Fetch monthly expenses
+        fetch(`/api/reports/monthly?userId=${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched data:', data);
+
+            if (data.error) {
+                throw new Error(data.details || 'Invalid response format');
+            }
+
+            if (!Array.isArray(data)) {
+                throw new Error('Invalid response format');
+            }
+
+            const tbody = document.querySelector('#monthly-expenses tbody');
+            tbody.innerHTML = data.map(expense => `
+                <tr>
+                    <td>${new Date(expense.createdAt).toLocaleDateString()}</td>
+                    <td>${expense.description}</td>
+                    <td>${expense.amount}</td>
+                    <td>${expense.category}</td>
+                </tr>
+            `).join('');
+        })
+        .catch(error => {
+            console.error('Error fetching monthly report:', error);
+        });
+
+        // Handle download report button click
+        document.getElementById('download-report').addEventListener('click', () => {
+            fetch(`/api/reports/download?userId=${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.details || 'Failed to download report');
+                }
+                alert(`Report downloaded successfully. URL: ${data.url}`);
+                
+                // Update the list of previously downloaded files
+                const fileList = document.getElementById('file-list');
+                const newFile = document.createElement('li');
+                newFile.innerHTML = `<a href="${data.url}" target="_blank">${new Date().toLocaleString()} - ${data.url}</a>`;
+                fileList.prepend(newFile);
+            })
+            .catch(error => {
+                console.error('Error downloading report:', error);
+            });
+        });
+
+        // Fetch previously downloaded files
+        fetch(`/api/reports/downloadedfiles?userId=${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(files => {
+            const fileList = document.getElementById('file-list');
+            fileList.innerHTML = files.map(file => `
+                <li>
+                    <a href="${file.url}" target="_blank">${new Date(file.downloadedAt).toLocaleString()} - ${file.url}</a>
+                </li>
+            `).join('');
+        })
+        .catch(error => {
+            console.error('Error fetching downloaded files:', error);
+        });
+    });
+    </script>
+</body>
+</html>
